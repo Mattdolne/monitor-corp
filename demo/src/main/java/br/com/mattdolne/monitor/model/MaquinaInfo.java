@@ -1,4 +1,4 @@
-package br.com.mattdolne.monitor;
+package br.com.mattdolne.monitor.model;
 
 public class MaquinaInfo {
     
