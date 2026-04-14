@@ -6,6 +6,9 @@ public class MaquinaInfo {
     private String hostname;
     private String ip;
     private String macAddress;
+    private double espacoDiscoLivrePorcentagem;
+    private String dominio;
+    private String dataInstalacaoOS;
     
     //Regras de Conformidade
     private String sistemaOperacional;
@@ -90,6 +93,30 @@ public class MaquinaInfo {
 
     public void setUptimeHoras(long uptimeHoras) {
         this.uptimeHoras = uptimeHoras;
+    }
+
+    public double getEspacoDiscoLivrePorcentagem() {
+        return espacoDiscoLivrePorcentagem;
+    }
+
+    public void setEspacoDiscoLivrePorcentagem(double espacoDiscoLivrePorcentagem) {
+        this.espacoDiscoLivrePorcentagem = espacoDiscoLivrePorcentagem;
+    }
+
+    public String getDominio() {
+        return dominio;
+    }
+
+    public void setDominio(String dominio) {
+        this.dominio = dominio;
+    }
+
+    public String getDataInstalacaoOS() {
+        return dataInstalacaoOS;
+    }
+
+    public void setDataIntalacaoOS(String dataInstalacaoOS) {
+        this.dataInstalacaoOS = dataInstalacaoOS;
     }
 
 }

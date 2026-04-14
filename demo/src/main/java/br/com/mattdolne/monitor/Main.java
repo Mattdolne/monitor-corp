@@ -17,6 +17,11 @@ public class Main {
         System.out.println("=== TESTE DO COLETOR ===");
         System.out.println("Hostname: " + minhaMaquina.getHostname());
         System.out.println("Memória RAM (GB): " + minhaMaquina.getMemoriaRamGB());
-        
+        System.out.println("SSD Instalado: " + minhaMaquina.getDiscoSSD());
+        System.out.println("Espaço Livre (%): " + minhaMaquina.getEspacoDiscoLivrePorcentagem());
+        System.out.println("Endereço IP ataual: " + minhaMaquina.getIP());
+        System.out.println("Endereço MAC: " + minhaMaquina.getMacAddress());
+        System.out.println("Domínio da Máquina: " + minhaMaquina.getDominio());
+        System.out.println("Data da última formatação: " + minhaMaquina.getDataInstalacaoOS());
     }
 }
