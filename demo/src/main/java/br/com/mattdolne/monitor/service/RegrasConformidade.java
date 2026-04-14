@@ -29,6 +29,12 @@ public class RegrasConformidade {
             alertas.add("ALERTA: espaço em disco inferior a 15%! Sobrecarga de armazenamento pode ser danosa ao dispositivo. Solicite uma limpeza ao Suporte Técnico responsável.");
         }
 
+        // Regra 5: Fora do domínio
+        String dominio = info.getDominio().toUpperCase();
+        if (dominio.contains("WORKGROUP") || dominio.equals(info.getHostname().toUpperCase())) {
+            alertas.add("ATENÇÃO! Você está operando fora do Domínio. Solicite ao Suporte Técnico responsável a adequação imediatamente!"); 
+        }
+
         return alertas;
     }
 
