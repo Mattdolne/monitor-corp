@@ -79,6 +79,7 @@ public class ColetorHardware {
                 }
             }
             info.setDiscoSSD(temSSD);
+            -----------> NÃO FUNCIONOU, MAS EU PREFERI MANTER COMENTADO, POR ENQUANTO, PORQUE PODE SER ÚTIL
             */
             // Verificar SSD consultando o tipo de mídia física no Windows
             String comandoSSD = "Get-PhysicalDisk | Select-Object -ExpandProperty MediaType";
