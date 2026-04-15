@@ -153,7 +153,7 @@ private void configurarBandejaDoSistema() {
 } // <---------- FIM DO MÉTODO configurarBandejaDoSistema    
 
 private void iniciarMonitoramentoSilencioso() {
-    int intervaloDeChecagem = 60000; //1 min - ajustar depois de testar
+    int intervaloDeChecagem = 3 * 60 * 60 * 1000; //notificação a cada 3h
 
     Timer timerSegundoPlano = new Timer(intervaloDeChecagem, e -> {
         ColetorHardware coletor = new ColetorHardware();
@@ -169,6 +169,8 @@ private void iniciarMonitoramentoSilencioso() {
             );
         }
     });
+
+    timerSegundoPlano.setCoalesce(true);
 
     timerSegundoPlano.start();
 } // <--- FIM DO MÉTODO iniciarMonitoramentoSilencioso

@@ -1,7 +1,7 @@
 package br.com.mattdolne.monitor;
 
 import br.com.mattdolne.monitor.view.DashboardFrame;
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         // 1. Aplica o tema
         try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
+            UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (Exception ex) {
             System.err.println("Falha ao inicializar o tema FlatLaf.");
         }
