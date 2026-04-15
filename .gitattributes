@@ -1,2 +1,2 @@
 *.java linguist-detectable=true
-*.assembler-language=Java
+*.java linguist-documentation=false
