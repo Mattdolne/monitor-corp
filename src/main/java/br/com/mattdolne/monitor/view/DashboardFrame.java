@@ -2,6 +2,7 @@ package br.com.mattdolne.monitor.view;
 
 import br.com.mattdolne.monitor.model.MaquinaInfo;
 import br.com.mattdolne.monitor.service.ColetorHardware;
+import br.com.mattdolne.monitor.service.ConfiguracaoService;
 import br.com.mattdolne.monitor.service.RegrasConformidade;
 
 import javax.swing.*;
@@ -9,13 +10,18 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.time.LocalTime;
 
 public class DashboardFrame extends JFrame {
 
     private TrayIcon trayIcon;
+    private ConfiguracaoService configService = new ConfiguracaoService();
+
+    private LocalTime horarioFimExpediente = configService.carregarHorarioExpediente();
+    private boolean expedienteNotificadoHoje = false;
 
     //===========================================================
-    // 1. CONSTRUTOR
+    //  CONSTRUTOR
     //===========================================================
     public DashboardFrame() {
         // Configurações básicas da janela
@@ -35,7 +41,7 @@ public class DashboardFrame extends JFrame {
     }
 
     //===========================================================
-    // 2. MÉTODO DE ATUALIZAÇÃO DE TELA
+    //  MÉTODO DE ATUALIZAÇÃO DE TELA
     //===========================================================
     private void atualizarDadosDaTela() {
 
@@ -98,17 +104,51 @@ public class DashboardFrame extends JFrame {
             painelAuditoria.add(new JScrollPane(txtAlertas), BorderLayout.CENTER);
             painelPrincipal.add(painelAuditoria, BorderLayout.CENTER);
     
-    
-            add(painelPrincipal);
+            JButton btnAdmin = new JButton("Configurações");
+            btnAdmin.addActionListener(e -> abrirLoginAdmin());
+            painelPrincipal.add(btnAdmin, BorderLayout.SOUTH);
 
+            
+            add(painelPrincipal);
+            
             revalidate();
             repaint();
-
+            
+            
         }   
-// <--- FIM DO MÉTODO atualizarDadosDaTela
+        // <--- FIM DO MÉTODO atualizarDadosDaTela
 
 //===========================================================
-// 3. MÉTODOS DA BANDEJA DO SISTEMA
+//  MÉTODO LOGIN ADMIN
+//===========================================================
+
+        private void abrirLoginAdmin() {
+            JPasswordField pf = new JPasswordField();
+            int okPF = JOptionPane.showConfirmDialog(null, pf, "Insira a senha de Administrador: ", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            if (okPF == JOptionPane.OK_OPTION) {
+                String password = new String(pf.getPassword());
+                if (password.equals("admin@123")) {
+                    abrirTelaConfiguracoes();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Senha Incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        // <--- FIM DO MÉTODO abrirLoginAdmin
+        
+        private void abrirTelaConfiguracoes() {
+            ConfiguracoesFrame telaAdmin = new ConfiguracoesFrame(this);
+            telaAdmin.setVisible(true);
+        }
+
+        public void setHorarioFimExpediente(LocalTime novoHorario) {
+            this.horarioFimExpediente = novoHorario;
+            this.expedienteNotificadoHoje = false;
+        }
+
+//===========================================================
+//  MÉTODOS DA BANDEJA DO SISTEMA
 //===========================================================
 private void configurarBandejaDoSistema() {
     SystemTray tray = SystemTray.getSystemTray();
@@ -171,8 +211,31 @@ private void iniciarMonitoramentoSilencioso() {
     });
 
     timerSegundoPlano.setCoalesce(true);
-
     timerSegundoPlano.start();
+
+    Timer timerExpediente = new Timer(60000, e -> {
+        LocalTime agora = LocalTime.now();
+
+        LocalTime avisoPrevio = horarioFimExpediente.minusMinutes(2);
+
+        if (agora.getHour() == 0 && agora.getMinute() == 0) {
+            expedienteNotificadoHoje = false;
+        }
+
+        if (!expedienteNotificadoHoje && (agora.isAfter(avisoPrevio) || agora.getMinute() == avisoPrevio.getMinute())) {
+
+            trayIcon.displayMessage(
+                "Monitor CORP: Seu expediente está chegando ao fim.",
+                "Lembre-se de desligar o computador antes de sair. Bom descanso!",
+                TrayIcon.MessageType.WARNING
+            );
+
+            expedienteNotificadoHoje = true;
+
+        }
+    });
+    timerExpediente.start();
+
 } // <--- FIM DO MÉTODO iniciarMonitoramentoSilencioso
 
 }
