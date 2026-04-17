@@ -226,7 +226,7 @@ private void iniciarMonitoramentoSilencioso() {
 
             trayIcon.displayMessage(
                 "Monitor CORP: Seu expediente está chegando ao fim.",
-                "Lembre-se de desligar o computador antes de sair. Bom descanso!",
+                "Desligue o computador antes de sair. Bom descanso!",
                 TrayIcon.MessageType.WARNING
             );
 
