@@ -222,17 +222,19 @@ private void iniciarMonitoramentoSilencioso() {
             expedienteNotificadoHoje = false;
         }
 
-        if (!expedienteNotificadoHoje && (agora.isAfter(avisoPrevio) || agora.getMinute() == avisoPrevio.getMinute())) {
+        boolean chegouNaHora = (!expedienteNotificadoHoje && (agora.isAfter(avisoPrevio) || agora.getMinute() == avisoPrevio.getMinute()));
+        if (!expedienteNotificadoHoje && (agora.isAfter(avisoPrevio) || chegouNaHora)) {
 
-            trayIcon.displayMessage(
-                "Monitor CORP: Seu expediente está chegando ao fim.",
-                "Desligue o computador antes de sair. Bom descanso!",
-                TrayIcon.MessageType.WARNING
-            );
+                        trayIcon.displayMessage(
+                            "Monitor CORP: Seu expediente está chegando ao fim.",
+                            "Desligue o computador antes de sair. Bom descanso!",
+                            TrayIcon.MessageType.WARNING
+                        );
+        }
 
             expedienteNotificadoHoje = true;
 
-        }
+        
     });
     timerExpediente.start();
 
